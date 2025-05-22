@@ -2,30 +2,60 @@
 
 #define TAM 10
 #define NAVIO_TAM 3
+#define NAVIO 3
+
+// Função para verificar se é possível posicionar um navio
+int podePosicionar(int tabuleiro[TAM][TAM], int linha[], int coluna[]) {
+    for (int i = 0; i < NAVIO_TAM; i++) {
+        if (linha[i] < 0 || linha[i] >= TAM || coluna[i] < 0 || coluna[i] >= TAM)
+            return 0; // Fora do limite
+        if (tabuleiro[linha[i]][coluna[i]] != 0)
+            return 0; // Sobreposição
+    }
+    return 1;
+}
+
+// Função para posicionar o navio
+void posicionarNavio(int tabuleiro[TAM][TAM], int linha[], int coluna[]) {
+    for (int i = 0; i < NAVIO_TAM; i++) {
+        tabuleiro[linha[i]][coluna[i]] = NAVIO;
+    }
+}
 
 int main() {
-    int tabuleiro[TAM][TAM] = {0}; // Inicializa tudo com 0
+    int tabuleiro[TAM][TAM] = {0};
 
-    // Define os navios como vetores com valor 3 (não é obrigatório, mas ajuda na visualização)
-    int navio_horizontal[NAVIO_TAM] = {3, 3, 3};
-    int navio_vertical[NAVIO_TAM] = {3, 3, 3};
+    // Navio 1 - Horizontal
+    int linha1[] = {1, 1, 1};
+    int coluna1[] = {2, 3, 4};
 
-    // Coordenadas iniciais dos navios
-    int linha_h = 2, coluna_h = 4; // Começa na linha 2, coluna 4 (horizontal)
-    int linha_v = 5, coluna_v = 7; // Começa na linha 5, coluna 7 (vertical)
+    if (podePosicionar(tabuleiro, linha1, coluna1))
+        posicionarNavio(tabuleiro, linha1, coluna1);
 
-    // Posiciona o navio horizontal
-    for (int i = 0; i < NAVIO_TAM; i++) {
-        tabuleiro[linha_h][coluna_h + i] = navio_horizontal[i];
-    }
+    // Navio 2 - Vertical
+    int linha2[] = {5, 6, 7};
+    int coluna2[] = {7, 7, 7};
 
-    // Posiciona o navio vertical
-    for (int i = 0; i < NAVIO_TAM; i++) {
-        tabuleiro[linha_v + i][coluna_v] = navio_vertical[i];
-    }
+    if (podePosicionar(tabuleiro, linha2, coluna2))
+        posicionarNavio(tabuleiro, linha2, coluna2);
 
-    // Exibe o tabuleiro
+    // Navio 3 - Diagonal principal (↘)
+    int linha3[] = {0, 1, 2};
+    int coluna3[] = {0, 1, 2};
+
+    if (podePosicionar(tabuleiro, linha3, coluna3))
+        posicionarNavio(tabuleiro, linha3, coluna3);
+
+    // Navio 4 - Diagonal secundária (↙)
+    int linha4[] = {7, 8, 9};
+    int coluna4[] = {2, 1, 0};
+
+    if (podePosicionar(tabuleiro, linha4, coluna4))
+        posicionarNavio(tabuleiro, linha4, coluna4);
+
+    // Exibir o tabuleiro
     printf("Tabuleiro Batalha Naval:\n\n");
+
     for (int i = 0; i < TAM; i++) {
         for (int j = 0; j < TAM; j++) {
             printf("%d ", tabuleiro[i][j]);
